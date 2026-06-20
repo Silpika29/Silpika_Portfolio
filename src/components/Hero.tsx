@@ -23,6 +23,16 @@ export const Hero = () => {
     const timer = setTimeout(() => {
       setMounted(true);
     }, 100);
+
+    // Preload all frames into the browser cache
+    // This prevents the network from cancelling requests when the src changes every 40ms on live deployments
+    if (frameUrls.length > 0) {
+      frameUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+      });
+    }
+
     return () => clearTimeout(timer);
   }, []);
 
