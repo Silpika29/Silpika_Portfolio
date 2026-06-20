@@ -29,4 +29,4 @@ A premium, interactive, and high-end personal portfolio website built to showcas
 - **GitHub:** [Silpika29](https://github.com/Silpika29)
 
 ---
-*Designed & Built for Silpika Jattimyni.*
+*Designed & Built by Silpika Jattimyni.*
