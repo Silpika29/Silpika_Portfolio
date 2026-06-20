@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const frameModules = import.meta.glob('../assets/ezgif-78f5a6b631e58f22-jpg/*.jpg', {
   eager: true,
@@ -16,35 +16,94 @@ const FLOATING_MESSAGES = [
 
 export const Hero = () => {
   const [mounted, setMounted] = useState(false);
-  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setMounted(true);
     }, 100);
-
-    // Preload all frames into the browser cache
-    // This prevents the network from cancelling requests when the src changes every 40ms on live deployments
-    if (frameUrls.length > 0) {
-      frameUrls.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-      });
-    }
-
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     if (frameUrls.length === 0) return;
 
-    const interval = setInterval(() => {
-      setCurrentFrameIndex((prev) => (prev + 1) % frameUrls.length);
-    }, 40); // ~25fps
+    // Load first frame immediately as poster
+    const firstImg = new Image();
+    firstImg.onload = () => {
+      const canvas = canvasRef.current;
+      if (canvas && !imagesLoaded) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          canvas.width = firstImg.width;
+          canvas.height = firstImg.height;
+          ctx.drawImage(firstImg, 0, 0);
+        }
+      }
+    };
+    firstImg.src = frameUrls[0];
 
-    return () => clearInterval(interval);
+    // Preload all frames into memory
+    let loadedCount = 0;
+    const imgs: HTMLImageElement[] = [];
+
+    frameUrls.forEach((url, index) => {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === frameUrls.length) {
+          setImagesLoaded(true);
+        }
+      };
+      img.src = url;
+      imgs[index] = img;
+    });
+
+    imagesRef.current = imgs;
   }, []);
+
+  useEffect(() => {
+    if (!imagesLoaded || frameUrls.length === 0) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let frameIndex = 0;
+    let lastTime = performance.now();
+    let animationFrameId: number;
+    const fpsInterval = 40; // ~25fps
+
+    const render = (time: number) => {
+      animationFrameId = requestAnimationFrame(render);
+      const elapsed = time - lastTime;
+
+      if (elapsed >= fpsInterval) {
+        lastTime = time - (elapsed % fpsInterval);
+
+        const img = imagesRef.current[frameIndex];
+        if (img) {
+          if (canvas.width !== img.width || canvas.height !== img.height) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+          }
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+        }
+
+        frameIndex = (frameIndex + 1) % imagesRef.current.length;
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(render);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [imagesLoaded]);
 
   useEffect(() => {
     const messageInterval = setInterval(() => {
@@ -138,13 +197,7 @@ export const Hero = () => {
         >
           {/* Image Container with precise rounding */}
           <div className='absolute inset-0 w-full h-full rounded-t-full rounded-b-[60px] overflow-hidden pointer-events-none'>
-            {frameUrls.length > 0 && (
-              <img
-                src={frameUrls[currentFrameIndex]}
-                className='w-full h-full object-cover object-top'
-                alt='Hero background sequence'
-              />
-            )}
+            <canvas ref={canvasRef} className='w-full h-full object-cover object-top' />
           </div>
 
           {/* SVG Rings */}
