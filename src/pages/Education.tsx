@@ -113,7 +113,7 @@ export const Education = () => {
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                 >
                   <span className='block font-label-caps text-label-caps text-on-secondary-container tracking-widest uppercase mb-4 opacity-80'>
-                    2022 – 2023
+                    2021 - 2023
                   </span>
                   <h3 className='font-body-lg text-on-surface mb-1 font-semibold'>
                     Viswasai Jr. College
