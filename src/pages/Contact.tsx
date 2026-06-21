@@ -47,16 +47,6 @@ export const Contact = () => {
             </span>
           </a>
 
-          {/* Phone */}
-          <a className='flex items-center gap-4 group interactive' href='tel:8977617701'>
-            <span className='material-symbols-outlined text-white opacity-80 group-hover:opacity-100 transition-opacity duration-500'>
-              call
-            </span>
-            <span className='font-body-md text-body-md text-white border-b border-transparent group-hover:border-white transition-colors duration-500 pb-1'>
-              8977617701
-            </span>
-          </a>
-
           {/* Location */}
           <div className='flex items-center gap-4 group'>
             <span className='material-symbols-outlined text-white opacity-80'>location_on</span>
