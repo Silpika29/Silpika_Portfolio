@@ -138,8 +138,7 @@ const BrutalistContact: React.FC = () => {
 
           {/* Footer note */}
           <div className='mt-2 bg-[#ff8c8a] border-2 border-[#ff9e9c] p-3 text-center text-black/80 font-bold uppercase text-xs sm:text-sm tracking-wide flex justify-center items-center gap-2'>
-            <span className='text-[#ffd700]'>⚡</span>
-            Yes, this actually works! You will get an email within a minute.
+            You will get an email within a minute.
           </div>
         </form>
       </div>

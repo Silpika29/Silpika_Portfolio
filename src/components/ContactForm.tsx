@@ -206,8 +206,7 @@ export const ContactForm: React.FC = () => {
         )}
 
         <div className='text-[12px] text-brand-sage font-body-md tracking-wide text-center pt-2 flex items-center justify-center gap-1.5 opacity-80'>
-          <span>✨</span>
-          Yes, this actually works! You will get an email within a minute.
+          You will get an email within a minute.
         </div>
       </form>
     </motion.div>
