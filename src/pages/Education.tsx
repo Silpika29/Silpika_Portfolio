@@ -83,7 +83,7 @@ export const Education = () => {
                       CGPA
                     </span>
                     <span className='font-display-lg text-[48px] leading-none text-primary ml-auto'>
-                      8.8
+                      8.86
                     </span>
                   </div>
                 </motion.div>

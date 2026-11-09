@@ -270,7 +270,7 @@ export const Hero = () => {
               <p className='font-label-caps text-[10px] text-[#8C9A84] font-semibold tracking-[0.15em] mb-3 uppercase'>
                 Education
               </p>
-              <p className='font-emphasis text-[32px] text-forest leading-none mb-1'>8.8 CGPA</p>
+              <p className='font-emphasis text-[32px] text-forest leading-none mb-1'>8.86 CGPA</p>
               <p className='font-body-md text-[14px] text-forest/70'>B.Tech AI/ML</p>
             </div>
 

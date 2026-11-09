@@ -51,7 +51,7 @@ export const About = () => {
           {/* Stats Rows */}
           <div className='flex flex-col border-t border-outline-variant'>
             <div className='flex items-center justify-between py-5 border-b border-outline-variant group hover:bg-surface-container/20 transition-colors duration-500 px-2'>
-              <span className='font-emphasis text-[32px] font-bold text-on-surface'>8.8</span>
+              <span className='font-emphasis text-[32px] font-bold text-on-surface'>8.86</span>
               <span className='font-label-caps text-[12px] text-primary-container uppercase tracking-wider'>
                 CGPA
               </span>
